@@ -35,27 +35,33 @@ app.get("/api/notes", function(err, res) {
 
 // writes the new note to the json file
 app.post("/api/notes", function(req, res) {
-    // reads the json file
-    notesData = fs.readFileSync("db/db.json", "utf8");
-    console.log(notesData);
-
-    // parse the data to get an array of objects
-    notesData = JSON.parse(notesData);
-    // Set new notes id
-    req.body.id = notesData.length;
-    // add the new note to the array of note objects
-    notesData.push(req.body); // req.body - user input
-    // make it string(stringify)so you can write it to the file
-    notesData = JSON.stringify(notesData);
-    // writes the new note to file
-    fs.writeFile("db/db.json", notesData, "utf8", function(err) {
-      // error handling
+    try {
+      // reads the json file
+      notesData = fs.readFileSync("./db/db.json", "utf8");
+      console.log(notesData);
+  
+      // parse the data to get an array of objects
+      notesData = JSON.parse(notesData);
+      // Set new notes id
+      req.body.id = notesData.length;
+      // add the new note to the array of note objects
+      notesData.push(req.body); // req.body - user input
+      // make it string(stringify)so you can write it to the file
+      notesData = JSON.stringify(notesData);
+      // writes the new note to file
+      fs.writeFile("./db/db.json", notesData, "utf8", function(err) {
+        // error handling
         if (err) throw err;
-    });
-    // changeit back to an array of objects & send it back to the browser(client)
-    res.json(JSON.parse(notesData));
-    console.log("/api/notes post request successful!")
-});
+      });
+      // changeit back to an array of objects & send it back to the browser(client)
+      res.json(JSON.parse(notesData));
+  
+      // error Handling
+    } catch (err) {
+      throw err;
+    }
+  });
+  
 // Delete a note
 
 app.delete("/api/notes/:id", function(req, res) {
@@ -96,7 +102,7 @@ app.get("/api/notes", function(req, res) {
 // If no matching route is found default to home
 app.get("*", function(req, res) {
     res.sendFile(path.join(__dirname, "public/index.html"));
-    console.log("Your get request did not exist, reset url to homepage.");
+    console.log("Your get request did not exist/was the homepage, reset url to homepage.");
 });
 
 // Start the server on the port

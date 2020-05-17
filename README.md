@@ -1,5 +1,7 @@
 # Express Note Taker
 
+A web application that allows you to quickly save notes. You or a team can all access one central website and easily save, create or delete notes. You can experience the deployed project here: https://note-taker-05-15-2020.herokuapp.com/ 
+
 ## Description
 
 Create an application that can be used to write, save, and delete notes. This application will use an express backend and save and retrieve note data from a JSON file.
